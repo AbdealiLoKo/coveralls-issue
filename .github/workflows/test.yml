@@ -1,0 +1,75 @@
+name: "Test"
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  DEBIAN_FRONTEND: noninteractive
+
+concurrency:
+  group: build-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-myapp1:
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+      - name: Install dependencies
+        run: |
+          pip install -e .
+          pip install -r requirements.txt
+      - name: Run tests
+        run: |
+          pytest \
+            -k "not test_text_order_by" \
+            --cov --cov-report=lcov --cov-report=html
+      - uses: actions/upload-artifact@v3
+        with:
+          name: myapp1-coverage-data
+          path: |
+            test_results/**
+            htmlcov/**
+      - name: Send coverage data to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          file: test_results/myapp/coverage.lcov
+          flag-name: lcov-myapp1
+          parallel: true
+
+  test-myapp2:
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+      - name: Install dependencies
+        run: |
+          pip install -e .
+          pip install -r requirements.txt
+      - name: Run tests
+        run: |
+          pytest \
+            -k "test_text_order_by" \
+            --cov --cov-report=lcov --cov-report=html
+      - uses: actions/upload-artifact@v3
+        with:
+          name: myapp2-coverage-data
+          path: |
+            test_results/**
+            htmlcov/**
+      - name: Send coverage data to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          file: test_results/myapp/coverage.lcov
+          flag-name: lcov-myapp2
+          parallel: true
+
+  generate-coverage-report:
+    needs: [test-myapp1, test-myapp2]
+    steps:
+      - name: Coveralls
+        env:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel-finished: true
