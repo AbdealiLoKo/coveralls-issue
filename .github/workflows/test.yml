@@ -36,7 +36,6 @@ jobs:
       - name: Send coverage data to Coveralls
         uses: coverallsapp/github-action@v2
         with:
-          file: test_results/myapp/coverage.lcov
           flag-name: lcov-myapp1
           parallel: true
 
@@ -64,7 +63,6 @@ jobs:
       - name: Send coverage data to Coveralls
         uses: coverallsapp/github-action@v2
         with:
-          file: test_results/myapp/coverage.lcov
           flag-name: lcov-myapp2
           parallel: true
 
