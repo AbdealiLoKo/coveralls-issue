@@ -1,0 +1,7 @@
+# Ignore everything in this directory
+*
+# Except a few files
+!.gitignore
+!settings.json
+!extensions.json
+

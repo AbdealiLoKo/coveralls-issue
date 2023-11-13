@@ -1,0 +1,7 @@
+[run]
+dynamic_context = test_function
+data_file = test_results/myapp/.coverage
+branch = true
+
+[lcov]
+output = test_results/myapp/coverage.lcov

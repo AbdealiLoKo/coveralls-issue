@@ -1,0 +1,26 @@
+ignore = [
+    "S101", # Allow "assert" statements
+]
+select = [
+    "A",    # flake8-builtins
+    "C4",   # flake8-comprehensions
+    "E",    # pycodestyle - errors
+    "F",    # pyflakes
+    "G",    # flake8-logging-format
+    "I",    # isort
+    "ICN",  # flake8-import-conventions
+    "ISC",  # flake8-implicit-str-concat
+    "N",    # pep8-naming
+    "NPY",  # numpy-specific rules
+    "PERF", # perflint
+    "PIE",  # flake8-pie
+    "PGH",  # pygrep-hooks
+    "PT",   # flake8-pytest-style
+    "Q",    # flake8-quotes
+    "S",    # flake8-bandit
+    "UP",   # pyupgrade
+    "W",    # pycodestyle - warnings
+]
+
+[isort]
+required-imports = ["from __future__ import annotations"]
