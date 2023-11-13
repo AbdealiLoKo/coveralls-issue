@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test-myapp1:
+  test-myapp:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,52 +27,27 @@ jobs:
       - name: Run tests
         run: |
           venv/bin/pytest \
-            -k "not test_text_order_by" \
             --cov --cov-report=lcov --cov-report=html
       - uses: actions/upload-artifact@v3
         with:
-          name: myapp1-coverage-data
+          name: myapp-coverage-data
           path: |
             test_results/**
             htmlcov/**
       - name: Send coverage data to Coveralls
         uses: coverallsapp/github-action@v2
         with:
-          flag-name: lcov-myapp1
+          flag-name: lcov-myapp
           parallel: true
 
-  test-myapp2:
+  does-nothing:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
-        with:
-          python-version: 3.8
-      - name: Install dependencies
-        run: |
-          python -m venv venv
-          venv/bin/pip install -e .
-          venv/bin/pip install -r requirements.txt
-      - name: Run tests
-        run: |
-          venv/bin/pytest \
-            -k "test_text_order_by" \
-            --cov --cov-report=lcov --cov-report=html
-      - uses: actions/upload-artifact@v3
-        with:
-          name: myapp2-coverage-data
-          path: |
-            test_results/**
-            htmlcov/**
-      - name: Send coverage data to Coveralls
-        uses: coverallsapp/github-action@v2
-        with:
-          flag-name: lcov-myapp2
-          parallel: true
+      - run: echo "Does nothing"
 
   generate-coverage-report:
     runs-on: ubuntu-latest
-    needs: [test-myapp1, test-myapp2]
+    needs: [test-myapp, does-nothing]
     steps:
       - name: Coveralls
         env:
