@@ -5,3 +5,6 @@ branch = true
 
 [lcov]
 output = test_results/myapp/coverage.lcov
+
+[xml]
+output = test_results/myapp/coverage.xml
