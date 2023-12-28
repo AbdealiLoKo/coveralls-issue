@@ -28,7 +28,7 @@ jobs:
         run: |
           venv/bin/pytest \
             -k "not test_text_order_by" \
-            --cov --cov-report=lcov --cov-report=html
+            --cov --cov-report=xml --cov-report=html
       - uses: actions/upload-artifact@v3
         with:
           name: myapp1-coverage-data
@@ -38,8 +38,8 @@ jobs:
       - name: Send coverage data to Coveralls
         uses: coverallsapp/github-action@v2
         with:
-          format: lcov
-          flag-name: lcov-myapp
+          format: cobertura
+          flag-name: cobertura-myapp
           parallel: true
 
   test-myapp2:
@@ -58,7 +58,7 @@ jobs:
         run: |
           venv/bin/pytest \
             -k "test_text_order_by" \
-            --cov --cov-report=lcov --cov-report=html
+            --cov --cov-report=xml --cov-report=html
       - uses: actions/upload-artifact@v3
         with:
           name: myapp2-coverage-data
@@ -68,8 +68,8 @@ jobs:
       - name: Send coverage data to Coveralls
         uses: coverallsapp/github-action@v2
         with:
-          format: lcov
-          flag-name: lcov-myapp
+          format: cobertura
+          flag-name: cobertura-myapp
           parallel: true
 
   generate-coverage-report:
